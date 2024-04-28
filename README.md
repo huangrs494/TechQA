@@ -27,3 +27,26 @@ evaluation_freq = 500
 
 # merged
 基座模型和微调后的模型合并后生成的文件
+
+# 微调步骤
+1、读取配置文件（包括基座模型，微调数据等），使用deepspeed_zero2加速，进行微调，大概半个小时就微调结束了
+
+xtuner train internlm2_7b_chat_qlora_e3.py --deepspeed deepspeed_zero2
+
+2、将得到的 PTH 模型转换为 HuggingFace 模型
+
+即：生成 Adapter 文件夹
+
+export MKL_SERVICE_FORCE_INTEL=1
+xtuner convert pth_to_hf internlm2_7b_chat_qlora_e3.py ./work_dirs/internlm_chat_7b_qlora_e3/epoch_3.pth ./hf
+
+3、将 HuggingFace adapter 合并到大语言模型
+
+xtuner convert merge ./internlm2-chat-7b ./hf ./merged --max-shard-size 2GB
+
+4、测试
+python cli_internlm2.py
+
+
+
+
