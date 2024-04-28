@@ -46,6 +46,7 @@ xtuner convert merge ./internlm2-chat-7b ./hf ./merged --max-shard-size 2GB
 
 4、测试
 python cli_internlm2.py
+<img width="1089" alt="image" src="https://github.com/huangrs494/TechQA/assets/19499939/95fe3d0d-8ca6-4dab-af6e-5a1e687d9bb8">
 
 
 
